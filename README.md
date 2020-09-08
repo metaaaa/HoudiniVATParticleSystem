@@ -2,4 +2,5 @@
  
 houdiniのvatをparticleSystemで動かせます。
 custom vertex streamを利用しています。
-rigid body はサンプルがなかったので動くか不明です。
+
+rigid はサンプルがなかったので動くか不明です。
