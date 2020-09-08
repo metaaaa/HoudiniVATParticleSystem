@@ -1,2 +1,3 @@
 # HoudiniVATParticleSystem
  
+houdiniのvatをparticleSystemで動かせます。
