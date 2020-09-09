@@ -100,10 +100,11 @@
 			pos.xyz *= expand;
 			pos.xyz += _boundingMin;
 			pos.x *= -1;  //flipped to account for right-handedness of unity
+            pos.xyz =  pos.xzy;
 
-            pos.xy=rot(pos.xy,v.texcoord2.z);
-            pos.xz=rot(pos.xz,v.texcoord2.y);
-            pos.yz=rot(pos.yz,v.texcoord2.x);
+            pos.xy=rot(pos.xy,-v.texcoord2.z);
+            pos.xz=rot(pos.xz,-v.texcoord2.y);
+            pos.yz=rot(pos.yz,-v.texcoord2.x);
             pos.xyz*=v.texcoord3.xyz;
 
             pos.xyz+=v.texcoord1.xyz;
