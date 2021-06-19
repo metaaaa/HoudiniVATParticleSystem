@@ -18,6 +18,8 @@
 		_EmissionTex("EmissionTexture",2D) = "white"{}
 		_EmissionColor("EmissionColor",Color) = (1,1,1,1)
 		_EmissionIntensity("EmissionIntensity",Float) = 0
+
+        _Debug("Debug",float)=0
     }
     SubShader
     {
@@ -29,11 +31,13 @@
 
         CGPROGRAM
         // Physically based Standard lighting model, and enable shadows on all light types
-        #pragma surface surf Standard addshadow fullforwardshadows 
+        #pragma surface surf Standard addshadow fullforwardshadows
         #pragma vertex vert
 
         // Use shader model 3.0 target, to get nicer looking lighting
         #pragma target 5.0
+
+        #define PI acos(-1.0)
 
         sampler2D _MainTex;
         sampler2D _BumpMap, _EmissionTex;
@@ -49,6 +53,8 @@
 		uniform float _boundingMin;
 		uniform float _speed;
 		uniform int _numOfFrames;
+
+        float _Debug;
 
         struct appdata_particles {
             float4 vertex : POSITION;
@@ -78,11 +84,13 @@
             return mul(p, float2x2(c, -s, s, c));
         }
 
- 
 
-        void vert(inout appdata_particles v, out Input o) 
+
+        void vert(inout appdata_particles v, out Input o)
         {
+            // world to local
             v.vertex.xyz -= v.texcoord1.xyz;
+
 			float rand=v.texcoord1.w;
 			//calcualte uv coordinates
 			float timeInFrames = ((ceil(frac(-_Time.y * _speed) * _numOfFrames))/_numOfFrames) + (1.0/_numOfFrames);
@@ -99,19 +107,23 @@
 			pos.xyz =  pos.xzy;  //swizzle y and z because textures are exported with z-up
 
             pos.xy=rot(pos.xy,-v.texcoord2.z);
-            pos.xz=rot(pos.xz,v.texcoord2.y);
             pos.yz=rot(pos.yz,-v.texcoord2.x);
+            pos.xz=rot(pos.xz,v.texcoord2.y);
+
+            // size
             pos.xyz*=v.texcoord3.xyz;
 
+            // diff + local pos
             pos.xyz+=v.vertex.xyz;
-            
-
+            // local 2 world
             pos.xyz+=v.texcoord1.xyz;
             v.vertex=pos;
+
+
             normal = normal.xzy;
 			normal *= 2;
 			normal -= 1;
-			normal.x *= -1; 
+			normal.x *= -1;
 			v.normal = normal;
             UNITY_INITIALIZE_OUTPUT(Input,o);
             o.uv_MainTex = v.texcoord.xy;
@@ -119,7 +131,7 @@
         }
 
 
-        
+
 
 
         // Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.

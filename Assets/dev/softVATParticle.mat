@@ -85,6 +85,7 @@ Material:
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DT: 0
+    - _Debug: 0
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EmissionIntensity: 0

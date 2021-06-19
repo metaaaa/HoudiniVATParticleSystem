@@ -30,7 +30,7 @@
 
         CGPROGRAM
         // Physically based Standard lighting model, and enable shadows on all light types
-        #pragma surface surf Standard addshadow fullforwardshadows 
+        #pragma surface surf Standard addshadow fullforwardshadows
         #pragma vertex vert
 
         // Use shader model 3.0 target, to get nicer looking lighting
@@ -80,9 +80,9 @@
             return mul(p, float2x2(c, -s, s, c));
         }
 
- 
 
-        void vert(inout appdata_particles v, out Input o) 
+
+        void vert(inout appdata_particles v, out Input o)
         {
             v.vertex.xyz -= v.texcoord1.xyz;//ローカル座標に変換
 			float rand=v.texcoord1.w;
@@ -103,8 +103,8 @@
             pos.xyz =  pos.xzy;
 
             pos.xy=rot(pos.xy,-v.texcoord2.z);
-            pos.xz=rot(pos.xz,-v.texcoord2.y);
             pos.yz=rot(pos.yz,-v.texcoord2.x);
+            pos.xz=rot(pos.xz,-v.texcoord2.y);
             pos.xyz*=v.texcoord3.xyz;
 
             pos.xyz+=v.texcoord1.xyz;
@@ -119,7 +119,7 @@
             UNITY_INITIALIZE_OUTPUT(Input,o);
             o.uv_MainTex = v.texcoord.xy;
             o.color = v.color;
-            
+
         }
 
         // Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.

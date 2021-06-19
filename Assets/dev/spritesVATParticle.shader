@@ -29,7 +29,7 @@
 
         CGPROGRAM
         // Physically based Standard lighting model, and enable shadows on all light types
-        #pragma surface surf Standard alpha:fade 
+        #pragma surface surf Standard alpha:fade
         #pragma vertex vert
 
         // Use shader model 3.0 target, to get nicer looking lighting
@@ -80,9 +80,9 @@
             return mul(p, float2x2(c, -s, s, c));
         }
 
- 
 
-        void vert(inout appdata_particles v, out Input o) 
+
+        void vert(inout appdata_particles v, out Input o)
         {
 			float rand=v.texcoord1.w;
 			float timeInFrames = ((ceil(frac(-_Time.y * _speed) * _numOfFrames))/_numOfFrames) + (1.0/_numOfFrames);
@@ -96,23 +96,23 @@
 			pos.xyz *= expand;
 			pos.xyz += _boundingMin;
 			pos.x *= -1;  //flipped to account for right-handedness of unity
-			
+
             //create camera facing billboard based on uv coordinates
 			float3 cameraF = float3(v.texcoord.x - 0.5, v.texcoord.y - 0.5, 0);
 			cameraF *= float3(_width, _height, 1);
 			cameraF = mul(cameraF, UNITY_MATRIX_MV);
 			v.vertex.xyz = cameraF;
-            
+
             pos.xy=rot(pos.xy,v.texcoord2.z);
-            pos.xz=rot(pos.xz,v.texcoord2.y);
             pos.yz=rot(pos.yz,v.texcoord2.x);
+            pos.xz=rot(pos.xz,v.texcoord2.y);
             pos.xyz*=v.texcoord3.xyz;
 
             pos.xyz = v.vertex.xyz + pos.xzy;  //swizzle y and z because textures are exported with z-up
 
             pos.xyz+=v.texcoord1.xyz;
             v.vertex=pos;
-            
+
             v.color.rgb = textureCd;
             UNITY_INITIALIZE_OUTPUT(Input,o);
             o.uv_MainTex = v.texcoord.xy;
@@ -120,7 +120,7 @@
         }
 
 
-        
+
 
 
         // Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
